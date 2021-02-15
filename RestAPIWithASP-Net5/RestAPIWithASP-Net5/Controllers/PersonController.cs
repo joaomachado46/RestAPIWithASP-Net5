@@ -10,7 +10,10 @@ using System.Threading.Tasks;
 
 namespace RestAPIWithASP_Net5.Controllers
 {
-    [Route("api/[controller]")]
+    //PARA FAZER UM VERSIONAMENTO DA API TEM QUE SE INSTALAR O NUGET="microsoft.aspnetcore.mvc.versioning" E NO CONFIGURE SERVICES DO STARTUP, ADICIONAR O servicer.AddApiVersioning();
+
+    [ApiVersion("1")]
+    [Route("api/[controller]/v{version:apiVersion}")]
     [ApiController]
     public class PersonController : ControllerBase
     {

@@ -53,7 +53,6 @@ namespace RestAPIWithASP_Net5.Services.Implementations
             }
             catch (Exception)
             {
-
                 return null;
             }
         }

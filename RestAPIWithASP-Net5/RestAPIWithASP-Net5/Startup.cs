@@ -34,6 +34,8 @@ namespace RestAPIWithASP_Net5
             services.AddControllers();
             //INJEÇAO DE DEPENDENCIA
             services.AddScoped<IPersonService, PersonServiceImplementation>();
+            //PARA VERSIONAMENTO DA API
+            services.AddApiVersioning();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
