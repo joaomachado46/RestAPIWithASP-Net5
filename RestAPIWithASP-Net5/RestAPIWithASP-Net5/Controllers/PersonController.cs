@@ -1,87 +1,73 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using RestAPIWithASP_Net5.Model;
+using RestAPIWithASP_Net5.Services.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 namespace RestAPIWithASP_Net5.Controllers
 {
-    public class PersonController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PersonController : ControllerBase
     {
-        // GET: PersonController
-        public ActionResult Index()
+
+        private readonly IPersonService _personService;
+
+        public PersonController(IPersonService personService)
         {
-            return View();
+            _personService = personService;
         }
 
-        // GET: PersonController/Details/5
-        public ActionResult Details(int id)
+        // GET: api/<PersonController>
+        [HttpGet]
+        public IActionResult Get()
         {
-            return View();
+            return Ok(_personService.FindAll());
         }
 
-        // GET: PersonController/Create
-        public ActionResult Create()
+        // GET api/<PersonController>/5
+        [HttpGet("{id}")]
+        public IActionResult Get(long id)
         {
-            return View();
+
+            var person = _personService.FindById(id);
+            if (person == null)
+                return NotFound();
+            else
+                return Ok(person);
         }
 
-        // POST: PersonController/Create
+        // POST api/<PersonController>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Post([FromBody] Person person)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            if (person == null)
+                return BadRequest();
+            else
+                return Ok(_personService.Create(person));
         }
 
-        // GET: PersonController/Edit/5
-        public ActionResult Edit(int id)
+        // PUT api/<PersonController>/5
+        [HttpPut]
+        public IActionResult Put([FromBody] Person person)
         {
-            return View();
+            if (person == null)
+                return BadRequest();
+            else
+                return Ok(_personService.Update(person));
         }
 
-        // POST: PersonController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        // DELETE api/<PersonController>/5
+        [HttpDelete("{id}")]
+        public IActionResult Delete(long id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            _personService.Delete(id);
+            return NoContent();
 
-        // GET: PersonController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: PersonController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

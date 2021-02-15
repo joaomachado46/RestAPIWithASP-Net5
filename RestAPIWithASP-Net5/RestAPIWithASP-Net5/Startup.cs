@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RestAPIWithASP_Net5.Model.DataContext;
+using RestAPIWithASP_Net5.Services.Implementations;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +29,11 @@ namespace RestAPIWithASP_Net5
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<MySqlContext>(options => options.UseMySql(Configuration.GetConnectionString("MySqlConnectionString")));
+
             services.AddControllers();
+            //INJEÇAO DE DEPENDENCIA
+            services.AddScoped<IPersonService, PersonServiceImplementation>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
