@@ -27,7 +27,7 @@ namespace RestAPIWithASP_Net5.Controllers
             try
             {
                 List<Book> books = new List<Book>(_bookBusiness.FindAll());
-                if(books != null)
+                if (books != null)
                 {
                     return Ok(books);
                 }
@@ -39,7 +39,7 @@ namespace RestAPIWithASP_Net5.Controllers
             catch (Exception)
             {
                 return BadRequest();
-            }  
+            }
         }
 
         [HttpGet("{id}")]
@@ -55,6 +55,59 @@ namespace RestAPIWithASP_Net5.Controllers
                 {
                     return NotFound();
                 }
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost]
+        public IActionResult Post(Book book)
+        {
+            try
+            {
+                if (book != null)
+                {
+                    return Ok(_bookBusiness.Create(book));
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut]
+        public IActionResult Put(Book book)
+        {
+            try
+            {
+                if (book != null)
+                {
+                    return Ok(_bookBusiness.Update(book));
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                _bookBusiness.Delete(id);
+                return NoContent();
             }
             catch (Exception)
             {

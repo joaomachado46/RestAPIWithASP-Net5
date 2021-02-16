@@ -10,6 +10,7 @@ using RestAPIWithASP_Net5.Repository.Implementations;
 using RestAPIWithASP_Net5.Business.Implementations;
 using Serilog;
 using RestAPIWithASP_Net5.person.Business;
+using RestAPIWithASP_Net5.book.Business;
 
 namespace RestAPIWithASP_Net5
 {
@@ -43,7 +44,11 @@ namespace RestAPIWithASP_Net5
 
             services.AddControllers();
             //INJEÇAO DE DEPENDENCIA
+            //CLASS BOOK
+            services.AddScoped<IBookRepository, BookRepositoryImplementation>();
+            services.AddScoped<IBookBusiness, BookBusinessImplementation>();
 
+            //CLASS PERSON
             services.AddScoped<IPersonBusiness, IPersonBusinessImplementation>();
             services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
             //PARA VERSIONAMENTO DA API
