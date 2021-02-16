@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestAPIWithASP_Net5.Model;
-using RestAPIWithASP_Net5.Services.Implementations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using RestAPIWithASP_Net5.person.Business;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,18 +14,18 @@ namespace RestAPIWithASP_Net5.Controllers
     public class PersonController : ControllerBase
     {
 
-        private readonly IPersonService _personService;
+        private readonly IPersonBusiness _personBusiness;
 
-        public PersonController(IPersonService personService)
+        public PersonController(IPersonBusiness personBusiness)
         {
-            _personService = personService;
+            _personBusiness = personBusiness;
         }
 
         // GET: api/<PersonController>
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_personService.FindAll());
+            return Ok(_personBusiness.FindAll());
         }
 
         // GET api/<PersonController>/5
@@ -37,7 +33,7 @@ namespace RestAPIWithASP_Net5.Controllers
         public IActionResult Get(long id)
         {
 
-            var person = _personService.FindById(id);
+            var person = _personBusiness.FindById(id);
             if (person == null)
                 return NotFound();
             else
@@ -51,7 +47,7 @@ namespace RestAPIWithASP_Net5.Controllers
             if (person == null)
                 return BadRequest();
             else
-                return Ok(_personService.Create(person));
+                return Ok(_personBusiness.Create(person));
         }
 
         // PUT api/<PersonController>/5
@@ -61,14 +57,14 @@ namespace RestAPIWithASP_Net5.Controllers
             if (person == null)
                 return BadRequest();
             else
-                return Ok(_personService.Update(person));
+                return Ok(_personBusiness.Update(person));
         }
 
         // DELETE api/<PersonController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            _personService.Delete(id);
+            _personBusiness.Delete(id);
             return NoContent();
 
         }

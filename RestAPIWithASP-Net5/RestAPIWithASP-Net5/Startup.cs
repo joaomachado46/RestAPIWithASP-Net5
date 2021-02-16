@@ -1,29 +1,39 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using RestAPIWithASP_Net5.Model.DataContext;
-using RestAPIWithASP_Net5.Services.Implementations;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using RestAPIWithASP_Net5.Repository;
+using RestAPIWithASP_Net5.Repository.Implementations;
+using RestAPIWithASP_Net5.Business.Implementations;
+using Serilog;
+using RestAPIWithASP_Net5.person.Business;
 
 namespace RestAPIWithASP_Net5
 {
+    //NUGET NECESSARIO DE INSTALAR PARA USAR MIGRACIONS/LOGGER
+    /*  PackageReference = Evolve
+     *  PackageReference = Serilog
+        PackageReference = "Serilog.AspNetCore"
+        PackageReference = "Serilog.Sinks.Console"*/
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get;  }
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment _environment)
         {
             Configuration = configuration;
+            Environment = _environment;
+
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
         }
 
-        public IConfiguration Configuration { get; }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -33,7 +43,9 @@ namespace RestAPIWithASP_Net5
 
             services.AddControllers();
             //INJEÇAO DE DEPENDENCIA
-            services.AddScoped<IPersonService, PersonServiceImplementation>();
+
+            services.AddScoped<IPersonBusiness, IPersonBusinessImplementation>();
+            services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
             //PARA VERSIONAMENTO DA API
             services.AddApiVersioning();
         }

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestAPIWithASP_Net5.Model.DataContext;
 
 namespace RestAPIWithASP_Net5.Migrations
 {
     [DbContext(typeof(MySqlContext))]
-    partial class MySqlContextModelSnapshot : ModelSnapshot
+    [Migration("20210216181525_ClassBookUpdate")]
+    partial class ClassBookUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,48 +44,6 @@ namespace RestAPIWithASP_Net5.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("books");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Author = "Michael C. Feathers",
-                            LaunchDate = new DateTime(2021, 2, 16, 18, 28, 40, 599, DateTimeKind.Local).AddTicks(9117),
-                            Price = 49.00m,
-                            Title = "Working effectively with legacy code"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Author = "Ralph Johnson, Erich Gamma, John Vlissides e Richard Helm",
-                            LaunchDate = new DateTime(2021, 2, 16, 18, 28, 40, 601, DateTimeKind.Local).AddTicks(6136),
-                            Price = 45.00m,
-                            Title = "Working effectively with legacy code"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Author = "Robert C. Martin",
-                            LaunchDate = new DateTime(2021, 2, 16, 20, 28, 40, 601, DateTimeKind.Local).AddTicks(6186),
-                            Price = 51.00m,
-                            Title = "Working effectively with legacy code"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Author = "Crockford",
-                            LaunchDate = new DateTime(2021, 2, 17, 18, 28, 40, 601, DateTimeKind.Local).AddTicks(6209),
-                            Price = 49.00m,
-                            Title = "Working effectively with legacy code"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Author = "Eric Freeman",
-                            LaunchDate = new DateTime(2021, 2, 21, 18, 28, 40, 601, DateTimeKind.Local).AddTicks(6223),
-                            Price = 113.00m,
-                            Title = "Working effectively with legacy code"
-                        });
                 });
 
             modelBuilder.Entity("RestAPIWithASP_Net5.Model.Person", b =>

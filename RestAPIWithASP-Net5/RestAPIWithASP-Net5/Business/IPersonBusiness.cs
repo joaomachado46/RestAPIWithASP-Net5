@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using RestAPIWithASP_Net5.Model;
 
-namespace RestAPIWithASP_Net5.Services.Implementations
+namespace RestAPIWithASP_Net5.person.Business
 {
-    public interface IPersonService
+    public interface IPersonBusiness
     {
         Person Create(Person person);
         Person FindById(long id);

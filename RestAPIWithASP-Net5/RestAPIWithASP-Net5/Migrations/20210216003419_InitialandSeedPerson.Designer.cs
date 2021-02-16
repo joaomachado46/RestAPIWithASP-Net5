@@ -8,8 +8,8 @@ using RestAPIWithASP_Net5.Model.DataContext;
 namespace RestAPIWithASP_Net5.Migrations
 {
     [DbContext(typeof(MySqlContext))]
-    [Migration("20210215190349_update")]
-    partial class update
+    [Migration("20210216003419_InitialandSeedPerson")]
+    partial class InitialandSeedPerson
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,6 +44,40 @@ namespace RestAPIWithASP_Net5.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("person");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Address = "Famalicão",
+                            FirstName = "João",
+                            Gender = "Masculino",
+                            LastName = "Machado"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Address = "Famalicão",
+                            FirstName = "Francisca",
+                            Gender = "Feminino",
+                            LastName = "Machado"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Address = "Famalicão",
+                            FirstName = "Vânia",
+                            Gender = "Feminino",
+                            LastName = "Silva"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            Address = "Famalicão",
+                            FirstName = "Manel",
+                            Gender = "Masculino",
+                            LastName = "Antonio"
+                        });
                 });
 #pragma warning restore 612, 618
         }

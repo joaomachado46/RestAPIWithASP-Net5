@@ -6,13 +6,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RestAPIWithASP_Net5.Services.Implementations
+namespace RestAPIWithASP_Net5.Repository.Implementations
 {
-    public class PersonServiceImplementation : IPersonService
+    public class PersonRepositoryImplementation : IPersonRepository
     {
         private readonly MySqlContext _context;
         //CONSTRUTOR
-        public PersonServiceImplementation(MySqlContext mySqlContext)
+        public PersonRepositoryImplementation(MySqlContext mySqlContext)
         {
             _context = mySqlContext;
         }
@@ -34,7 +34,7 @@ namespace RestAPIWithASP_Net5.Services.Implementations
         {
             try
             {
-                return _context.Persons.FirstOrDefault(pId => pId.Id == id);
+                return _context.Persons.FirstOrDefault(p => p.Id == id);
             }
             catch (Exception)
             {
