@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RestAPIWithASP_Net5.Repository.Repository;
 using RestAPIWithASP_Net5.book.Business;
 
 namespace RestAPIWithASP_Net5.Business.Implementations
@@ -11,11 +12,11 @@ namespace RestAPIWithASP_Net5.Business.Implementations
     public class BookBusinessImplementation : IBookBusiness
     {
 
-        private readonly IBookRepository _bookRepository;
+        private readonly IRepository<Book> Repository;
 
-        public BookBusinessImplementation(IBookRepository bookRepository)
+        public BookBusinessImplementation(IRepository<Book> repository)
         {
-            _bookRepository = bookRepository;
+            Repository = repository;
         }
 
         public Book Create(Book book)
@@ -23,7 +24,7 @@ namespace RestAPIWithASP_Net5.Business.Implementations
             try
             {
                 if (book != null)
-                    return _bookRepository.Create(book);
+                    return Repository.Create(book);
                 else
                     return null;
             }
@@ -38,7 +39,7 @@ namespace RestAPIWithASP_Net5.Business.Implementations
         {
             try
             {
-                _bookRepository.Delete(id);
+                Repository.Delete(id);
             }
             catch (Exception)
             {
@@ -50,7 +51,7 @@ namespace RestAPIWithASP_Net5.Business.Implementations
         {
             try
             {
-                var book = _bookRepository.FindById(id);
+                var book = Repository.FindById(id);
                 if (book != null)
                     return book;
                 else
@@ -64,12 +65,12 @@ namespace RestAPIWithASP_Net5.Business.Implementations
 
         public Book Update(Book book)
         {
-            return _bookRepository.Update(book);
+            return Repository.Update(book);
         }
 
-        public IEnumerable<Book> FindAll()
+        public async Task<IEnumerable<Book>> FindAllAsync()
         {
-            return _bookRepository.FindAll();
+            return await Repository.FindAllAsync();
         }
     }
 }

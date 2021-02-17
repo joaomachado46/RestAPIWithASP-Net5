@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestAPIWithASP_Net5.Model.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,10 +8,8 @@ using System.Threading.Tasks;
 namespace RestAPIWithASP_Net5.Model
 {
     [Table("books")]
-    public class Book
+    public class Book  : BaseEntity
     {
-
-        public int Id { get; set; }
         [Column("title")]
         public string Title { get; set; }
 

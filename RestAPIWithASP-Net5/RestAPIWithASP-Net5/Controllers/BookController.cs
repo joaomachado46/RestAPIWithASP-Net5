@@ -22,11 +22,11 @@ namespace RestAPIWithASP_Net5.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAsync()
         {
             try
             {
-                List<Book> books = new List<Book>(_bookBusiness.FindAll());
+                List<Book> books = new List<Book>(await _bookBusiness.FindAllAsync());
                 if (books != null)
                 {
                     return Ok(books);
