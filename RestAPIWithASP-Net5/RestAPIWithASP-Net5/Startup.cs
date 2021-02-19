@@ -12,6 +12,8 @@ using RestAPIWithASP_Net5.person.Business;
 using RestAPIWithASP_Net5.book.Business;
 using RestAPIWithASP_Net5.Repository.Repository;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Rewrite;
+using Microsoft.Net.Http.Headers;
 
 namespace RestAPIWithASP_Net5
 {
@@ -23,7 +25,7 @@ namespace RestAPIWithASP_Net5
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public IWebHostEnvironment Environment { get;  }
+        public IWebHostEnvironment Environment { get; }
 
         public Startup(IConfiguration configuration, IWebHostEnvironment _environment)
         {
@@ -42,7 +44,16 @@ namespace RestAPIWithASP_Net5
         {
 
             services.AddDbContext<MySqlContext>(options => options.UseMySql(Configuration.GetConnectionString("MySqlConnectionString")));
+            //PARA RECEBER FORMATO EM XML
+            services.AddMvc(option =>
+            {
+                option.RespectBrowserAcceptHeader = true;
+                option.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
+                option.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
+            })
+                .AddXmlSerializerFormatters();
 
+            //-------------------------
             services.AddControllers();
             //INJEÇAO DE DEPENDENCIA
             //CLASS BOOK
@@ -56,7 +67,17 @@ namespace RestAPIWithASP_Net5
             //DEFINIR O ARRANQUE COM O SWAGGER
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Rest Api",
+                    Version = "v1",
+                    Description = "Api developed in course",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "João Machado",
+                        Url = new System.Uri("https://github.com/joaomachado46"),
+                    }
+                });
             });
         }
 
@@ -68,7 +89,7 @@ namespace RestAPIWithASP_Net5
                 app.UseDeveloperExceptionPage();
                 //DEFINIR O ARRANQUE COM O SWAGGER
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rest Api v1"));
             }
 
             app.UseHttpsRedirection();

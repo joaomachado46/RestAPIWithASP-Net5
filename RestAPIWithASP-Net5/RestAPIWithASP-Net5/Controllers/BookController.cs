@@ -22,11 +22,16 @@ namespace RestAPIWithASP_Net5.Controllers
         }
 
         [HttpGet]
+        //PARA COSTUMIZAR O SWAGGER
+        [ProducesResponseType((200), Type = typeof(List<Book>))]
+        [ProducesResponseType((204))]
+        [ProducesResponseType((400))]
+        [ProducesResponseType((401))]
         public IActionResult Get()
         {
             try
             {
-                List<Book> books = new List<Book>( _bookBusiness.FindAll());
+                List<Book> books = new List<Book>(_bookBusiness.FindAll());
                 if (books != null)
                 {
                     return Ok(books);
@@ -43,6 +48,11 @@ namespace RestAPIWithASP_Net5.Controllers
         }
 
         [HttpGet("{id}")]
+        //PARA COSTUMIZAR O SWAGGER
+        [ProducesResponseType((200), Type = typeof(Book))]
+        [ProducesResponseType((204))]
+        [ProducesResponseType((400))]
+        [ProducesResponseType((401))]
         public IActionResult Get(int id)
         {
             try
@@ -62,6 +72,10 @@ namespace RestAPIWithASP_Net5.Controllers
             }
         }
         [HttpPost]
+        //PARA COSTUMIZAR O SWAGGER
+        [ProducesResponseType((200), Type = typeof(Book))]
+        [ProducesResponseType((400))]
+        [ProducesResponseType((401))]
         public IActionResult Post(Book book)
         {
             try
@@ -82,6 +96,11 @@ namespace RestAPIWithASP_Net5.Controllers
         }
 
         [HttpPut]
+        //PARA COSTUMIZAR O SWAGGER
+        [ProducesResponseType((200), Type = typeof(Book))]
+        [ProducesResponseType((204))]
+        [ProducesResponseType((400))]
+        [ProducesResponseType((401))]
         public IActionResult Put(Book book)
         {
             try
@@ -102,6 +121,10 @@ namespace RestAPIWithASP_Net5.Controllers
         }
 
         [HttpDelete("{id}")]
+        //PARA COSTUMIZAR O SWAGGER
+        [ProducesResponseType((204))]
+        [ProducesResponseType((400))]
+        [ProducesResponseType((401))]
         public IActionResult Delete(int id)
         {
             try

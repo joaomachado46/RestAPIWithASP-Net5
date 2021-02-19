@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestAPIWithASP_Net5.Model;
 using RestAPIWithASP_Net5.person.Business;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,6 +24,11 @@ namespace RestAPIWithASP_Net5.Controllers
 
         // GET: api/<PersonController>
         [HttpGet]
+        //DATAANOTATIONS PARA FORMATAR O SWAGGER
+        [ProducesResponseType((200), Type =  typeof(List<Person>))]
+        [ProducesResponseType((204))]
+        [ProducesResponseType((400))]
+        [ProducesResponseType((401))]
         public IActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
@@ -30,6 +36,11 @@ namespace RestAPIWithASP_Net5.Controllers
 
         // GET api/<PersonController>/5
         [HttpGet("{id}")]
+        //DATAANOTATIONS PARA FORMATAR O SWAGGER
+        [ProducesResponseType((200), Type = typeof(Person))]
+        [ProducesResponseType((204))]
+        [ProducesResponseType((400))]
+        [ProducesResponseType((401))]
         public IActionResult Get(int id)
         {
 
@@ -42,6 +53,10 @@ namespace RestAPIWithASP_Net5.Controllers
 
         // POST api/<PersonController>
         [HttpPost]
+        //DATAANOTATIONS PARA FORMATAR O SWAGGER
+        [ProducesResponseType((200), Type = typeof(Person))]
+        [ProducesResponseType((400))]
+        [ProducesResponseType((401))]
         public IActionResult Post([FromBody] Person person)
         {
             if (person == null)
@@ -52,6 +67,10 @@ namespace RestAPIWithASP_Net5.Controllers
 
         // PUT api/<PersonController>/5
         [HttpPut]
+        //DATAANOTATIONS PARA FORMATAR O SWAGGER
+        [ProducesResponseType((200), Type = typeof(Person))]
+        [ProducesResponseType((400))]
+        [ProducesResponseType((401))]
         public IActionResult Put([FromBody] Person person)
         {
             if (person == null)
@@ -62,6 +81,9 @@ namespace RestAPIWithASP_Net5.Controllers
 
         // DELETE api/<PersonController>/5
         [HttpDelete("{id}")]
+        //DATAANOTATIONS PARA FORMATAR O SWAGGER
+        [ProducesResponseType((400))]
+        [ProducesResponseType((401))]
         public IActionResult Delete(int id)
         {
             _personBusiness.Delete(id);
