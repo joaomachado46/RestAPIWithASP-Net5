@@ -9,8 +9,8 @@ using RestAPIWithASP_Net5.Model.DataContext;
 namespace RestAPIWithASP_Net5.Migrations
 {
     [DbContext(typeof(MySqlContext))]
-    [Migration("20210216180902_CreateClassBook")]
-    partial class CreateClassBook
+    [Migration("20210218234646_Initial2")]
+    partial class Initial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,13 +25,20 @@ namespace RestAPIWithASP_Net5.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Author")
+                        .HasColumnName("author")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<DateTime>("LaunchDate")
+                        .HasColumnName("launch_date")
                         .HasColumnType("datetime(6)");
 
                     b.Property<decimal>("Price")
+                        .HasColumnName("price")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("Title")
+                        .HasColumnName("title")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
@@ -41,10 +48,9 @@ namespace RestAPIWithASP_Net5.Migrations
 
             modelBuilder.Entity("RestAPIWithASP_Net5.Model.Person", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
                     b.Property<string>("Address")
                         .HasColumnName("address")
@@ -69,7 +75,7 @@ namespace RestAPIWithASP_Net5.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1L,
+                            Id = 1,
                             Address = "Famalicão",
                             FirstName = "João",
                             Gender = "Masculino",
@@ -77,7 +83,7 @@ namespace RestAPIWithASP_Net5.Migrations
                         },
                         new
                         {
-                            Id = 2L,
+                            Id = 2,
                             Address = "Famalicão",
                             FirstName = "Francisca",
                             Gender = "Feminino",
@@ -85,7 +91,7 @@ namespace RestAPIWithASP_Net5.Migrations
                         },
                         new
                         {
-                            Id = 3L,
+                            Id = 3,
                             Address = "Famalicão",
                             FirstName = "Vânia",
                             Gender = "Feminino",
@@ -93,7 +99,7 @@ namespace RestAPIWithASP_Net5.Migrations
                         },
                         new
                         {
-                            Id = 4L,
+                            Id = 4,
                             Address = "Famalicão",
                             FirstName = "Manel",
                             Gender = "Masculino",

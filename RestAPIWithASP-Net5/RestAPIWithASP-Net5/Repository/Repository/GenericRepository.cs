@@ -3,6 +3,7 @@ using RestAPIWithASP_Net5.Model.Base;
 using RestAPIWithASP_Net5.Model.DataContext;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RestAPIWithASP_Net5.Repository.Repository
@@ -57,11 +58,11 @@ namespace RestAPIWithASP_Net5.Repository.Repository
             }
         }
 
-        public async Task<List<T>> FindAllAsync()
+        public List<T> FindAll()
         {
             try
             {
-                return await DataSet.ToListAsync();
+                return DataSet.ToList();
             }
             catch (Exception)
             {

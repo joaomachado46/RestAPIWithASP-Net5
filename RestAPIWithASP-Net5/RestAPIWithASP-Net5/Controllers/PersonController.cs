@@ -30,7 +30,7 @@ namespace RestAPIWithASP_Net5.Controllers
 
         // GET api/<PersonController>/5
         [HttpGet("{id}")]
-        public IActionResult Get(long id)
+        public IActionResult Get(int id)
         {
 
             var person = _personBusiness.FindById(id);
@@ -62,7 +62,7 @@ namespace RestAPIWithASP_Net5.Controllers
 
         // DELETE api/<PersonController>/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public IActionResult Delete(int id)
         {
             _personBusiness.Delete(id);
             return NoContent();

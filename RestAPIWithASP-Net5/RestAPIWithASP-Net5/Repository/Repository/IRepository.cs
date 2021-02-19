@@ -10,7 +10,7 @@ namespace RestAPIWithASP_Net5.Repository.Repository
     {
         T Create(T item);
         T FindById(int id);
-        Task<List<T>> FindAllAsync();
+        List<T> FindAll();
         T Update(T item);
         void Delete(int id);
     }

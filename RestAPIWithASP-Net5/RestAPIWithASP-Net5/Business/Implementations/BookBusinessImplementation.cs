@@ -68,9 +68,9 @@ namespace RestAPIWithASP_Net5.Business.Implementations
             return Repository.Update(book);
         }
 
-        public async Task<IEnumerable<Book>> FindAllAsync()
+        public IEnumerable<Book> FindAll()
         {
-            return await Repository.FindAllAsync();
+            return Repository.FindAll();
         }
     }
 }

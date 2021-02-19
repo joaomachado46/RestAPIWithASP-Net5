@@ -6,12 +6,12 @@ using Microsoft.Extensions.Hosting;
 using RestAPIWithASP_Net5.Model.DataContext;
 using Microsoft.EntityFrameworkCore;
 using RestAPIWithASP_Net5.Repository;
-using RestAPIWithASP_Net5.Repository.Implementations;
 using RestAPIWithASP_Net5.Business.Implementations;
 using Serilog;
 using RestAPIWithASP_Net5.person.Business;
 using RestAPIWithASP_Net5.book.Business;
 using RestAPIWithASP_Net5.Repository.Repository;
+using Microsoft.OpenApi.Models;
 
 namespace RestAPIWithASP_Net5
 {
@@ -51,9 +51,13 @@ namespace RestAPIWithASP_Net5
 
             //CLASS PERSON
             services.AddScoped<IPersonBusiness, IPersonBusinessImplementation>();
-            services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
             //PARA VERSIONAMENTO DA API
             services.AddApiVersioning();
+            //DEFINIR O ARRANQUE COM O SWAGGER
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +66,9 @@ namespace RestAPIWithASP_Net5
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //DEFINIR O ARRANQUE COM O SWAGGER
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
             }
 
             app.UseHttpsRedirection();

@@ -1,6 +1,7 @@
 ﻿using RestAPIWithASP_Net5.Model;
 using RestAPIWithASP_Net5.person.Business;
 using RestAPIWithASP_Net5.Repository;
+using RestAPIWithASP_Net5.Repository.Repository;
 using System;
 using System.Collections.Generic;
 
@@ -8,9 +9,9 @@ namespace RestAPIWithASP_Net5.Business.Implementations
 {
     public class IPersonBusinessImplementation : IPersonBusiness
     {
-        private readonly IPersonRepository _personRepository;
+        private readonly IRepository<Person> _personRepository;
         //CONSTRUTOR
-        public IPersonBusinessImplementation(IPersonRepository personRepository)
+        public IPersonBusinessImplementation(IRepository<Person> personRepository)
         {
             _personRepository = personRepository;
         }
@@ -28,7 +29,7 @@ namespace RestAPIWithASP_Net5.Business.Implementations
             }
         }
         //ENCONTRAR POR ID
-        public Person FindById(long id)
+        public Person FindById(int id)
         {
             try
             {
@@ -72,7 +73,7 @@ namespace RestAPIWithASP_Net5.Business.Implementations
         }
 
         //APAGAR UMA PESSOA DA BD
-        public void Delete(long id)
+        public void Delete(int id)
         {
             try
             {

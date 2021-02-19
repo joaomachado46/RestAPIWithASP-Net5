@@ -8,7 +8,7 @@ namespace RestAPIWithASP_Net5.book.Business
 {
     public interface IBookBusiness
     {
-        public Task<IEnumerable<Book>> FindAllAsync();
+        public IEnumerable<Book> FindAll();
         public Book FindById(int id);
         public Book Create(Book book);
         public Book Update(Book book);
