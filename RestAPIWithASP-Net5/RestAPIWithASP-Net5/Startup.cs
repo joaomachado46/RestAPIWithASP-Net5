@@ -12,8 +12,18 @@ using RestAPIWithASP_Net5.person.Business;
 using RestAPIWithASP_Net5.book.Business;
 using RestAPIWithASP_Net5.Repository.Repository;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Net.Http.Headers;
+using RestAPIWithASP_Net5.Business;
+using RestAPIWithASP_Net5.Services;
+using RestAPIWithASP_Net5.Services.Implementations;
+using RestAPIWithASP_Net5.Configurations;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Http;
 
 namespace RestAPIWithASP_Net5
 {
@@ -42,8 +52,43 @@ namespace RestAPIWithASP_Net5
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //PARA DEFINIR A AUTENTICAÇÃO
+            var tokenConfigurations = new TokenConfiguration();
+            new ConfigureFromConfigurationOptions<TokenConfiguration>(
+                Configuration.GetSection("TokenConfiguration")
+                )
+                .Configure(tokenConfigurations);
 
+            services.AddSingleton(tokenConfigurations);
+
+            services.AddAuthentication(Options =>
+            {
+                Options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                Options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(Options =>
+                {
+                    Options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = tokenConfigurations.Issuer,
+                        ValidAudience = tokenConfigurations.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
+                    };
+                });
+
+            services.AddAuthorization(Auth =>
+            {
+                Auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+            });
+            //-------------------------------------------
             services.AddDbContext<MySqlContext>(options => options.UseMySql(Configuration.GetConnectionString("MySqlConnectionString")));
+
             //PARA RECEBER FORMATO EM XML
             services.AddMvc(option =>
             {
@@ -54,16 +99,38 @@ namespace RestAPIWithASP_Net5
                 .AddXmlSerializerFormatters();
 
             //-------------------------
+
+            //CONFIGURAR O CORS
+            services.AddCors(options => options.AddDefaultPolicy(buider =>
+            {
+                buider.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
+
+
             services.AddControllers();
             //INJEÇAO DE DEPENDENCIA
             //CLASS BOOK
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
 
+            //INJETAR TOKEN PARAAUTENTICAÇÃO
+            services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
+            services.AddTransient<ITokenService, TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            //INJETAR FILE UPLOAD
+            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IFileBusiness, FileBusinessImplementation>();
+
             //CLASS PERSON
             services.AddScoped<IPersonBusiness, IPersonBusinessImplementation>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
+
             //PARA VERSIONAMENTO DA API
             services.AddApiVersioning();
+
             //DEFINIR O ARRANQUE COM O SWAGGER
             services.AddSwaggerGen(c =>
             {
@@ -95,6 +162,10 @@ namespace RestAPIWithASP_Net5
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            //PARA DEFINIR/CONFUGURAR CORS TEM QUE SE COLOCAR ESSA DEFINIÇÃO ANTES DE (app.UseEndpoints)
+            //E DEPOIS DE (app.UseHttpsRedirection()) E (app.UseRouting())
+            app.UseCors(); //<--ISTO
 
             app.UseAuthorization();
 

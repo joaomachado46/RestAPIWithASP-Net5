@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestAPIWithASP_Net5.book.Business;
 using RestAPIWithASP_Net5.Model;
@@ -12,6 +13,7 @@ namespace RestAPIWithASP_Net5.Controllers
     [ApiVersion("1")]
     [Route("api/[controller]/v{version:apiversion}")]
     [ApiController]
+    [Authorize("Bearer")]
     public class BookController : ControllerBase
     {
         private readonly IBookBusiness _bookBusiness;

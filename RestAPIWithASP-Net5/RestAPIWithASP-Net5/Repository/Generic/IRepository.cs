@@ -13,5 +13,7 @@ namespace RestAPIWithASP_Net5.Repository.Repository
         List<T> FindAll();
         T Update(T item);
         void Delete(int id);
+        List<T> FindWithPageSearch(string query);
+        int GetCount(string query);
     }
 }

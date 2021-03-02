@@ -11,7 +11,7 @@ namespace RestAPIWithASP_Net5.Repository.Repository
     public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
 
-        private readonly MySqlContext Context;
+        protected MySqlContext Context;
         private DbSet<T> DataSet { get; set; }
 
         public GenericRepository(MySqlContext mySqlContext)
@@ -106,6 +106,24 @@ namespace RestAPIWithASP_Net5.Repository.Repository
             }
         }
 
-     
+        public List<T> FindWithPageSearch(string query)
+        {
+            return DataSet.FromSqlRaw<T>(query).ToList();
+        }
+
+        public int GetCount(string query)
+        {
+            var result = "";
+            using (var connection = Context.Database.GetDbConnection())
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = query;
+                    result = command.ExecuteScalar().ToString();
+                }
+            }
+            return int.Parse(result);
+        }
     }
 }

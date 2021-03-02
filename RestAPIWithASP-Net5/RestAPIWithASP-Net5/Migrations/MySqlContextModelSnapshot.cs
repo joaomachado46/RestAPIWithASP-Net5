@@ -54,6 +54,9 @@ namespace RestAPIWithASP_Net5.Migrations
                         .HasColumnName("address")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("FirstName")
                         .HasColumnName("first_name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -75,6 +78,7 @@ namespace RestAPIWithASP_Net5.Migrations
                         {
                             Id = 1,
                             Address = "Famalicão",
+                            Enabled = false,
                             FirstName = "João",
                             Gender = "Masculino",
                             LastName = "Machado"
@@ -83,6 +87,7 @@ namespace RestAPIWithASP_Net5.Migrations
                         {
                             Id = 2,
                             Address = "Famalicão",
+                            Enabled = false,
                             FirstName = "Francisca",
                             Gender = "Feminino",
                             LastName = "Machado"
@@ -91,6 +96,7 @@ namespace RestAPIWithASP_Net5.Migrations
                         {
                             Id = 3,
                             Address = "Famalicão",
+                            Enabled = false,
                             FirstName = "Vânia",
                             Gender = "Feminino",
                             LastName = "Silva"
@@ -99,10 +105,43 @@ namespace RestAPIWithASP_Net5.Migrations
                         {
                             Id = 4,
                             Address = "Famalicão",
+                            Enabled = false,
                             FirstName = "Manel",
                             Gender = "Masculino",
                             LastName = "Antonio"
                         });
+                });
+
+            modelBuilder.Entity("RestAPIWithASP_Net5.Model.User", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("FullName")
+                        .HasColumnName("full_name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Password")
+                        .HasColumnName("password")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnName("refresh_token")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("RefreshTokenTime")
+                        .HasColumnName("refresh_token_expiry_time")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnName("user_name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("users");
                 });
 #pragma warning restore 612, 618
         }
